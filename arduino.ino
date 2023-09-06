@@ -1,6 +1,7 @@
 // TODO: what does '\n' print?
 // TODO: check every delay is needed
 // TODO: swap sel_1 and sel_2?
+// TODO: https://suckless.org/coding_style/
 
 #include <string>
 #include <vector>
