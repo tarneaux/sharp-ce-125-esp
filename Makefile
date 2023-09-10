@@ -1,4 +1,4 @@
-SKETCH = arduino.ino
+SKETCH = .
 PORT = /dev/ttyACM0
 
 
