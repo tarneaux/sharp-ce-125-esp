@@ -13,6 +13,7 @@ class Printer {
         Printer(int busy, int d_out, int sel_1, int sel_2);
         void Print(string text);
     private:
+        void PrintParagraph(string paragraph);
         void Begin();
         void End();
         void SelectPrinter();
@@ -20,9 +21,12 @@ class Printer {
         void Init_Pins();
         void PrintByte(byte b);
         void PrintLine(string line);
-        static vector<string> SplitText(
+        static vector<string> WordWrap(
             string text,
             int max_length
+        );
+        static vector<string> SplitLines(
+            string text
         );
         int busy;
         int d_out;
@@ -32,17 +36,28 @@ class Printer {
 
 void setup() {
     Printer printer(D0, D1, D3, D2);
-    string line = "This is a long string that needs to be word-wrapped into lines with a maximum width of 24 characters.";
-    printer.Print(line);
+
+    string toprint = "This is a test of the printer.\nAnd this is another line.";
+
+    printer.Print(toprint);
 }
 
 void loop() {
 }
 
 void Printer::Print(string text) {
+    // Handle newlines.
+    vector<string> paragraphs = this->SplitLines(text);
+
+    for (string paragraph: paragraphs) {
+        this->PrintParagraph(paragraph);
+    }
+}
+
+void Printer::PrintParagraph(string paragraph) {
     // Print the text, splitting in up into 24 character lines.
     size_t max_length = 24;
-    vector<string> lines = this->SplitText(text, max_length);
+    vector<string> lines = this->WordWrap(paragraph, max_length);
     for (string line: lines) {
         this->PrintLine(line);
     }
@@ -59,6 +74,10 @@ Printer::Printer(int busy, int d_out, int sel_1, int sel_2) {
 }
 
 void Printer::PrintLine(string line) {
+    // Add spaces to make the line exactly 24 characters long.
+    while (line.length() < 24) {
+        line += ' ';
+    }
     this->Begin();
     for (char c: line) {
         this->PrintByte(c);
@@ -118,7 +137,7 @@ void Printer::Init_Pins() {
     }
 }
 
-vector<string> Printer::SplitText(
+vector<string> Printer::WordWrap(
     std::string text,
     int max_length
 ) {
@@ -153,6 +172,27 @@ vector<string> Printer::SplitText(
         while (start < text.length() && text[start] == ' ') {
             start++;
         }
+    }
+    return lines;
+}
+
+vector<string> Printer::SplitLines(
+    std::string text
+) {
+    vector<string> lines;
+    size_t start = 0;
+
+    while (start < text.length()) {
+        size_t end = text.find('\n', start);
+        if (end == std::string::npos) {
+            end = text.length();
+        }
+        size_t length = end - start;
+        string substring = text.substr(start, length);
+
+        lines.push_back(substring);
+
+        start = end + 1;
     }
     return lines;
 }
