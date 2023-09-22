@@ -62,7 +62,7 @@ void Printer::End() {
     this->PrintByte(13); // carriage return ('\r')
     delay(1); // TODO: is this necessary?
     digitalWrite(this->sel_2, LOW);
-    delay(1500); // TODO: can we move this to a class variable that keeps track
+    delay(900); // TODO: can we move this to a class variable that keeps track
                  // of whether or not we are printing?
 }
 
