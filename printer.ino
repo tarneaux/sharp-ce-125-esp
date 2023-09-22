@@ -34,7 +34,8 @@ void loop() {
 			if (client.available()) {
 				String line = client.readStringUntil('\n');
 				printer.Print(line.c_str());
-				client.print("OK\r\n");
+				// Return the number of characters printed to the client.
+				client.print(String(line.length()) + "\n");
 			}
 		}
 	}
