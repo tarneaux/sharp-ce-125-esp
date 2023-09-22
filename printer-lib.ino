@@ -97,6 +97,13 @@ vector<string> Printer::WordWrap(
     vector<string> lines;
     size_t start = 0;
 
+	// If we are printing an empty string, then just print a blank line.
+	// Otherwise, we would return an empty vector, which would print nothing.
+	if (text.length() == 0) {
+		lines.push_back("");
+		return lines;
+	}
+
     while (start < text.length()) {
         size_t max_end = start + max_length;
         size_t end;
