@@ -1,7 +1,7 @@
 # Sharp CE-125 ESP
 
-This is a program that can be used to use the sharp CE-125 thermal printer from
-1982.
+This is a program that can be used to use the sharp CE-125 thermal printer
+(released in 1982) with an ESP32-based microcontroller like a Seeed XIAO.
 
 It is heavily based on code from the
 [cavefischer website](http://www.cavefischer.at/spc/html/CE-125_Print-to.html)
