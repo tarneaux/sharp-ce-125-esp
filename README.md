@@ -71,5 +71,9 @@ variable in `example-client.py` and run the script.
 
 The WiFi protocol is briefly described in `example-client.py`.
 
+### Printing a character table
+
+To print a character table, copy `table.ino` to `printer.ino` and upload.
+
 [^1]: All pins for the CE-125 are counted from the top and are the ones on the
     11-pin header where the "pocket computer" is meant to be plugged in.
