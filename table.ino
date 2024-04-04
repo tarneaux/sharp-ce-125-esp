@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include "../printer-lib.h"
+#include "printer-lib.h"
 
 WiFiServer server(80);
 Printer printer(D0, D1, D3, D2);
