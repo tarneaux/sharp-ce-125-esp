@@ -27,7 +27,7 @@
 # printed or not).
 
 # The IP address or hostname of the ESP32
-HOST = "192.168.1.13"
+HOST = "192.168.1.24"
 PORT = 80
 
 
@@ -44,12 +44,71 @@ s.connect((HOST, PORT))
 
 max_width = 24
 
+char_table = {
+    "→": b"\x1b", # right arrow
+    "←": b"\x1c", # left arrow
+    "↑": b"\x1d", # up arrow
+    "↓": b"\x1e", # down arrow
+
+    "▒": b"\x7f", # block
+
+    "♪": b"\x8d", # music note
+
+    "ä": b"\xe0", # a umlaut
+    "ë": b"\xe1", # e umlaut
+    "ü": b"\xe2", # u umlaut
+    "ï": b"\xe3", # i umlaut
+    "ö": b"\xe4", # o umlaut
+    "à": b"\xe5", # a grave
+    "è": b"\xe6", # e grave
+    "ù": b"\xe7", # u grave
+    "â": b"\xe8", # a circumflex
+    "ê": b"\xe9", # e circumflex
+    "û": b"\xea", # u circumflex
+    "î": b"\xeb", # i circumflex
+    "ô": b"\xec", # o circumflex
+    "é": b"\xed", # e acute
+    "ç": b"\xee", # c cedilla
+    "ß": b"\xef", # eszett
+
+    "0̷": b"\xf0", # slashed zero
+    
+    "♠": b"\xf5", # spade
+    "♥": b"\xf6", # heart
+    "♦": b"\xf7", # diamond
+    "♣": b"\xf8", # club
+
+    "α": b"\xf9", # alpha
+    "β": b"\xfa", # beta
+    "γ": b"\xfb", # gamma
+    "σ": b"\xfc", # sigma
+    "λ": b"\xfd", # lambda
+    "δ": b"\xfe", # delta
+    "£": b"\xff", # pound
+}
+
+def encode(text):
+    # See https://en.wikipedia.org/wiki/Sharp_pocket_computer_character_sets (CE-126 table seems to be the same as CE-125)
+    encoded = b""
+    for c in text:
+        # TODO: check for both lower and upper case version of the character
+        if c in char_table:
+            encoded += char_table[c]
+        elif c.lower() in char_table:
+            encoded += char_table[c.lower()]
+        else:
+            encoded += c.encode('ascii')
+    return encoded
+
 def printLine(line):
-    line = line.encode()
+    line = encode(line)
     s.send(line)
     # Check that the line was sent back (i.e. received by the ESP32)
-    if recvline() != line:
+    received_line = recvline()
+    if received_line != line:
         print("Error: line not printed correctly")
+        print("Sent:", line)
+        print("Received:", received_line)
 
 def recvline():
     line = b''
