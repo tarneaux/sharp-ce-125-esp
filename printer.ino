@@ -33,7 +33,6 @@ void loop() {
 		while (client.connected()) {
 			if (client.available()) {
 				String line = client.readStringUntil('\n');
-				line.trim();
 				printer.Print(line.c_str());
 				// Return the printed line to the client so they can verify it
 				// was actually printed.
