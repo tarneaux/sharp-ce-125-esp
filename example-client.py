@@ -50,6 +50,9 @@ char_table = {
     "↑": b"\x1d", # up arrow
     "↓": b"\x1e", # down arrow
 
+    "'": b"\x22", # Apostrophe / quote
+    '"': b"\x22", # double quote (same output character)
+
     "▒": b"\x7f", # block
 
     "♪": b"\x8d", # music note
