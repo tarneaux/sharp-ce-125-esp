@@ -98,6 +98,9 @@ def encode(text):
             encoded += char_table[c.lower()]
         else:
             encoded += c.encode('ascii')
+    if encoded == b'\n':
+        # The printer won't print an empty line, but it will print a line with spaces only
+        encoded = b' \n'
     return encoded
 
 def printLine(line):
