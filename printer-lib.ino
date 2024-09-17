@@ -41,8 +41,8 @@ void Printer::PrintLine(string line) {
 void Printer::PrintByte(byte b) {
     // Print all 8 bits of the byte 1 by 1
     for (int i = 0; i < 8; i++) {
-        bool bit_i = b & (1 << i); // Get bit i, starting from the right
-                                   // (Little Endian)
+        bool bit_i = b >> i & 1; // Get bit i, starting from the right
+                                 // (Little Endian)
         digitalWrite(this->d_out, bit_i);
         digitalWrite(this->busy, HIGH);
         delay(1);
